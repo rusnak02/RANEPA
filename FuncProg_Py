@@ -1,0 +1,32 @@
+print(
+ 'Порядок выезда машин: ',*map(
+        lambda x: x[1][0],
+        sorted(
+            zip(
+                sorted(
+                    enumerate(
+                        map(
+                            int, input(
+                                'Введите расстояния для всех пассажиров через пробел: '
+                                ).split()
+                            )
+                        ),
+                    key=lambda x: x[1]
+                    ),
+                sorted(
+                    enumerate(
+                        map(
+                            int,
+                            input(
+                                'Введите стоимость 1 км для каждой машины через пробел: '
+                                ).split()
+                            )
+                        ),
+                    key=lambda x: x[1],
+                    reverse=True
+                    )
+                ),
+            key=lambda x: x[0][0]
+            )
+        )
+    )
