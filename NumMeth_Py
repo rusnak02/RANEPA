@@ -1,0 +1,112 @@
+from sympy.functions.combinatorial.numbers import nP
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+import math
+import pandas as pd
+
+def y(x):
+    y = 3*np.sin(x)-x+3
+    return y
+
+# Задание переменных
+x_values = np.linspace(1, 5, 1000)                
+y_values = y(x_values)                         
+
+# Отрисовка графика
+plt.figure(figsize=(10, 5))                        
+plt.plot(x_values, y_values,label='3sin(x)-x+3')  
+plt.title("y = 3sin(x)-x+3")                    
+plt.xlabel('Переменная X')                        
+plt.ylabel('Переменная Y')                      
+plt.legend()                                      
+plt.grid()                                         
+plt.show()                                      
+print()
+print('***********************************Метод дихотомии***********************************\n')
+def dihotomia(x1, x2):
+    eps=0.01
+    ksi=(x1+x2)/2
+    while(abs(y(ksi))>eps):
+        if ((y(x1)>0) and (y(ksi)<0)) or ((y(x1)<0) and (y(ksi)>0)):
+            x2=ksi
+        elif ((y(ksi)>0) and (y(x2)<0)) or ((y(ksi)<0) and (y(x2)>0)):
+            x1=ksi
+        ksi=(x1+x2)/2
+    return ksi                                    
+x1=3.0
+x2=4.0
+x = dihotomia(x1, x2)
+f=y(x)
+plt.figure(figsize=(10, 5))                        
+x_values = np.linspace(2, 4, 100)                 
+y_values = y(x_values)                              
+plt.plot(x_values, y_values,label='3sin(x)-x+3')  
+plt.plot(x, f,   marker='h', markerfacecolor='lightgreen', markeredgewidth=2,markersize=10, markevery=5)
+plt.title("y = 3sin(x)-x+3")                        
+plt.xlabel('Переменная X')                          
+plt.ylabel('Переменная Y')                        
+plt.legend()                                        
+plt.grid()                                         
+plt.show()                                        
+print('x =',x)
+print('f(x) =',f)
+print()
+print('***********************************Метод Ньютона***********************************\n')
+def f(x):
+    return 3*math.cos(x)-1
+x1=3.0
+x2=4.0
+x0=(x1+x2)/2
+xn=y(x0)
+xn1=xn-y(xn)/f(xn)
+e=0.001
+count=0
+while abs(xn1-xn)>e:
+      xn=xn1
+      xn1=xn-y(xn)/f(xn)
+      count+=1
+x = xn1
+plt.figure(figsize=(10, 5))                         
+x_values = np.linspace(2, 4, 100)                  
+y_values = y(x_values)                             
+plt.plot(x_values, y_values,label='3sin(x)-x+3')   
+plt.plot(x, y(x),   marker='h', markerfacecolor='red', markeredgewidth=2,markersize=10, markevery=5)
+plt.title("y = 3sin(x)-x+3")                        
+plt.xlabel('Переменная X')                        
+plt.ylabel('Переменная Y')                          
+plt.legend()                                        
+plt.grid()                                          
+plt.show()                                             
+print('x =',x)
+print('f(x) =',y(x))
+print('Количество итераций:', count)
+
+print('\n***********************************Метод простых итераций***********************************\n')
+M=round(1.01*f(4),0)
+def g(x):
+    return x-(3*math.sin(x)-x+3)/M
+x=4.0
+xk=g(x)
+e=0.001
+count=0
+while abs(y(x))>e:
+    x=xk
+    xk=g(x)
+    count+=1
+plt.figure(figsize=(10, 5))                         
+x_values = np.linspace(2, 4, 100)                   
+y_values = y(x_values)                             
+plt.plot(x_values, y_values,label='3sin(x)-x+3')    
+plt.plot(x, y(x),   marker='h', markerfacecolor='blue', markeredgewidth=2,markersize=10, markevery=5)
+plt.title("y = 3sin(x)-x+3")                       
+plt.xlabel('Переменная X')                          
+plt.ylabel('Переменная Y')                          
+plt.legend()                                        
+plt.grid()                                          
+plt.show()                                         
+print('x0 =',4)
+print('M =',M)
+print('x =',x)
+print('f(x) =', y(x))
+print('Количество итераций:', count)
