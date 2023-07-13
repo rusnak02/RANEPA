@@ -1,0 +1,15 @@
+lst=list(map(int,input("Введите числа через пробел: ").split()))
+print("Равномерное распределение суммы чисел: ")
+dm=list(divmod(sum(lst),len(lst)))
+print(
+    list(
+        map(
+            lambda x: dm[0],lst) 
+        if dm[1]==0 
+        else list(
+            map(
+                lambda x: dm[0]+1 ,lst[:dm[1]]))+list(
+                    map(
+                        lambda x: dm[0] ,lst[dm[1]-1:dm[-1]]))
+        )
+    )
